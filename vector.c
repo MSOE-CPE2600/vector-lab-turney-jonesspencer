@@ -18,6 +18,7 @@ void scale_vector(vector* a, double s, vector* r) {
     r->z = a->z * s;
 }
 
+
 vector* find_vector(vector list[], const char* name) {
     for (int i = 0; i < 10; i++) {
         if (list[i].used && strcmp(list[i].name, name) == 0)
