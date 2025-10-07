@@ -6,6 +6,7 @@
 
 int main(int argc, char *argv[]) {
     if (argc > 1 && strcmp(argv[1], "-h") == 0) {
+        printf("Update for github lab 6");
         printf("Usage Summary\n");
         printf("list to list vectors\nclear to clear all vectors\n");
         printf("Show a vectors values by only entering its name\n");
