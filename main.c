@@ -26,6 +26,8 @@ int main(int argc, char *argv[]) {
     if (argc > 1 && strcmp(argv[1], "-h") == 0) {
         printf("Usage Summary\n");
         printf("list to list vectors\nclear to clear all vectors\n");
+        printf("load <fname> to load from a file");
+        printf("save <fname> to save to a file");
         printf("Show a vectors values by only entering its name\n");
         printf("Create a vector ie a = 5, 5, 5\n");
         printf("Add a vector ie a = b + c\n");
