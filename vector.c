@@ -1,6 +1,16 @@
+/**
+ * @file vector.c
+ * @brief Implements core vector math operations for MiniMat Vector Calculator.
+ *
+ * Course: CPE2600
+ * Section: 121
+ * Assignment: Lab 5 — Vector Calculator
+ * Name: Spencer Jones
+ */
 #include <stdio.h>
 #include <string.h>
 #include "vector.h"
+#include "parse.h"
 
 void add(vector* a, vector* b, vector* r) {
     r->x = a->x + b->x;
@@ -18,29 +28,30 @@ void scale_vector(vector* a, double s, vector* r) {
     r->z = a->z * s;
 }
 
-
-vector* find_vector(vector list[], const char* name) {
-    for (int i = 0; i < 10; i++) {
+vector* find_vector(vector list[], int count, const char* name) {
+    for (int i = 0; i < count; i++) {
         if (list[i].used && strcmp(list[i].name, name) == 0)
             return &list[i];
     }
     return NULL;
 }
 
-vector* make_vector(vector list[], const char* name, double x, double y, double z) {
-    // overwrite if exists
-    vector* v = find_vector(list, name);
+vector* make_vector(vector list[], int* count, const char* name, double x, double y, double z) {
+    //resize list if needed
+    list_resize();
+    vector* v = find_vector(list, *count, name);
     if (v) {
         v->x = x; v->y = y; v->z = z;
         return v;
     }
     // else find free slot
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < list_maxlength(); i++) {
         if (!list[i].used) {
             strncpy(list[i].name, name, sizeof(list[i].name)-1);
             list[i].name[sizeof(list[i].name)-1] = '\0';
             list[i].x = x; list[i].y = y; list[i].z = z;
             list[i].used = 1;
+            (*count)++;
             return &list[i];
         }
     }
@@ -48,9 +59,9 @@ vector* make_vector(vector list[], const char* name, double x, double y, double 
     return NULL;
 }
 
-void list_vectors(vector list[]) {
+void list_vectors(vector list[], int count) {
     int any = 0;
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < count; i++) {
         if (list[i].used) {
             printf("%s = %.2f %.2f %.2f\n", list[i].name, list[i].x, list[i].y, list[i].z);
             any = 1;
@@ -60,10 +71,6 @@ void list_vectors(vector list[]) {
 }
 
 void clear_vectors(vector list[]) {
-    for (int i = 0; i < 10; i++) {
-        list[i].used = 0;
-        list[i].name[0] = '\0';
-        list[i].x = list[i].y = list[i].z = 0.0;
-    }
+    list_clear();
     printf("All vectors cleared.\n");
 }
